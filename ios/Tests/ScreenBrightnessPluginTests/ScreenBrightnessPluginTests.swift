@@ -2,14 +2,10 @@ import XCTest
 @testable import ScreenBrightnessPlugin
 
 class ScreenBrightnessTests: XCTestCase {
-    func testEcho() {
-        // This is an example of a functional test case for a plugin.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testPluginMethods() {
+        let plugin = ScreenBrightnessPlugin()
 
-        let implementation = ScreenBrightness()
-        let value = "Hello, World!"
-        let result = implementation.echo(value)
-
-        XCTAssertEqual(value, result)
+        XCTAssertEqual(plugin.jsName, "ScreenBrightness")
+        XCTAssertEqual(plugin.pluginMethods.map { $0.name }, ["setBrightness", "getBrightness"])
     }
 }

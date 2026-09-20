@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import Capacitor
 
 /**
@@ -10,8 +11,8 @@ public class ScreenBrightnessPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "ScreenBrightnessPlugin"
     public let jsName = "ScreenBrightness"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "setBrightness", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getBrightness", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "setBrightness", returnType: .promise),
+        CAPPluginMethod(name: "getBrightness", returnType: .promise)
     ]
 
     @objc func setBrightness(_ call: CAPPluginCall) {
