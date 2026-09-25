@@ -4,22 +4,22 @@ import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
+import com.getcapacitor.PluginThread
 import com.getcapacitor.annotation.CapacitorPlugin
 
 @CapacitorPlugin(name = "ScreenBrightness")
 public class ScreenBrightnessPlugin : Plugin() {
-    @PluginMethod
+    // The window's attributes belong to the main thread
+    @PluginMethod(thread = PluginThread.MAIN)
     public fun setBrightness(call: PluginCall) {
         val brightness = call.getFloat("brightness")
-        val activity = activity
         val layoutParams = activity.window.attributes
 
-        activity.runOnUiThread {
-            // A call without a brightness has always thrown here, on the UI thread, rather than being rejected.
-            layoutParams.screenBrightness = brightness!!
-            activity.window.attributes = layoutParams
-            call.resolve()
-        }
+        // A call without a brightness throws here, as it always has; on the MAIN thread the bridge rejects the call
+        // with what it throws instead of letting it crash the app.
+        layoutParams.screenBrightness = brightness!!
+        activity.window.attributes = layoutParams
+        call.resolve()
     }
 
     @PluginMethod
